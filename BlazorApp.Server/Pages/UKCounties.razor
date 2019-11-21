@@ -1,0 +1,47 @@
+﻿@page "/UKCounties"
+
+@using BlazorApp.Server.Data
+@using BlazorApp.Models;
+@inject UKCountiesDataService ukCountiesDataService
+
+
+<h3>UKCounties</h3>
+
+@if (uKCounties == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Abbreviation</th>
+                <th>Country</th>               
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var county in uKCounties)
+            {
+                <tr>                   
+                    <td>@county.Name</td>
+                    <td>@county.Abbreviation</td>
+                    <td>@county.Country</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    List<UKCountiesData> uKCounties;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var res = await ukCountiesDataService.GetAllAsync();
+        uKCounties = res.ToList();
+    }
+}
+
+

@@ -1,0 +1,55 @@
+﻿@page "/ukcounties"
+@inject HttpClient Http
+
+
+<h3>UKCounties</h3>
+
+@if (uKCounties == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Abbreviation</th>
+                <th>Country</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var county in uKCounties)
+            {
+                <tr>
+                    <td>@county.Name</td>
+                    <td>@county.Abbreviation</td>
+                    <td>@county.Country</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private UKCountiesData[] uKCounties;
+
+    protected override async Task OnInitializedAsync()
+    {
+        uKCounties = await Http.GetJsonAsync<UKCountiesData[]>("sample-data/UkCounties.json");
+
+        Console.WriteLine("Received Data");
+    }
+        
+    public class UKCountiesData
+    {
+       
+        public string Name { get; set; }
+
+       
+        public string Abbreviation { get; set; }
+
+        
+        public string Country { get; set; }
+    }
+}

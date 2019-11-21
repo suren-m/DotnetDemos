@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="release_artifact\**" />
+    <EmbeddedResource Remove="release_artifact\**" />
+    <None Remove="release_artifact\**" />
+    <Page Remove="release_artifact\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="WebDemoAsyncCombinators.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="WebDemoAsyncCombinators.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+
+</Project>

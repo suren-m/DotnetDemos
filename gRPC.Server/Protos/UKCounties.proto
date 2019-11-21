@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+option csharp_namespace = "gRPCDemo";
+
+package UKCounty;
+
+service UKCounties {
+  rpc GetUKCounties (google.protobuf.Empty) returns (UKCountiesReply);
+  rpc GetUKCountiesStream (google.protobuf.Empty) returns (stream UKCountiesData);
+}
+
+message UKCountiesReply {
+  repeated UKCountiesData UKCountiesData = 1;
+}
+
+message UKCountiesData {
+  string name = 1;
+  string abbreviation = 2;
+  string country = 3;
+}
+
