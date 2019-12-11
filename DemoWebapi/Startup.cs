@@ -16,6 +16,8 @@ namespace DemoWebapi
             Configuration = configuration;
         }
 
+        readonly string CorsPolicyName = "_CorsPolicyForDemoApi";
+
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -31,11 +33,21 @@ namespace DemoWebapi
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
             });
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(CorsPolicyName,
+                builder =>
+                {
+                    builder.WithOrigins("*");
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseCors(CorsPolicyName);
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
@@ -45,7 +57,7 @@ namespace DemoWebapi
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-                //c.RoutePrefix = string.Empty; // To serve the swagger UI at the app's root 
+                c.RoutePrefix = string.Empty; // To serve the swagger UI at the app's root 
             });
 
             if (env.IsDevelopment())
